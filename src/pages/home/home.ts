@@ -8,8 +8,15 @@ import { NavController, IonicPage } from 'ionic-angular';
 })
 export class HomePage { //controller da view home.html
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController) { //navController permite navegar de uma página a outra
 
   }
 
+  login(){
+    //push empilha uma página em cima da outra
+    //CategoriasPage é o nome do controlador de categorias que devo colocar para chegar a página de categorias
+    //navegar de uma página para outra, sempre usar this.
+    //this.navCtrl.push('CategoriasPage');
+    this.navCtrl.setRoot('CategoriasPage'); //uso setRoot para não empilhar
+  }
 }

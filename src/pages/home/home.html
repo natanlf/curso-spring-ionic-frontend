@@ -12,7 +12,9 @@
       <ion-label stacked>Senha</ion-label>
       <ion-input type="password"></ion-input>
     </ion-item>
-    <button ion-button block>Entrar</button>
+    <!--Fiz um bind no button, quando houver o evento de clique chamo o método login 
+      que pertence ao controller dessa view-->
+    <button ion-button block (click)="login()">Entrar</button>
   </form>
   <button ion-button block outline>Registrar</button>
 </ion-content>
