@@ -39,9 +39,6 @@ export class CategoriasPage {
       .subscribe(response =>{ //com arrow function, declarei uma função dentro de outra
         this.items = response; //tenho duas funções dentro da função subscribe, a response e a error
       },
-    error => {
-      console.log(error);
-    });
-    console.log();
+    error => {});
   }
 }
