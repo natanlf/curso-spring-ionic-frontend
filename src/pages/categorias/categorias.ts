@@ -1,3 +1,5 @@
+import { API_CONFIG } from './../../config/api.config';
+import { CategoriaDTO } from './../../models/categoria.dto';
 import { CategoriaService } from './../../services/domain/categoria.service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -16,6 +18,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CategoriasPage {
 
+  bucketUrl: string = API_CONFIG.bucketBaseUrl;
+
+  items: CategoriaDTO[]; //lista de categorias para moostrar na tela de categorias
+
   //coloco categoriaService no construtor para poder fazer o request e pegas a lista de categorias
   constructor(
     public navCtrl: NavController, 
@@ -31,7 +37,7 @@ export class CategoriasPage {
     //vamos usar uma função anonima, que é também chamada de arrow function
     this.categoriaService.findAll()
       .subscribe(response =>{ //com arrow function, declarei uma função dentro de outra
-        console.log(response); //tenho duas funções dentro da função subscribe, a response e a error
+        this.items = response; //tenho duas funções dentro da função subscribe, a response e a error
       },
     error => {
       console.log(error);
