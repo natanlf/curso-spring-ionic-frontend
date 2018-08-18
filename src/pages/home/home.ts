@@ -1,7 +1,8 @@
-import { CredeciaisDTO } from './../../models/credenciais.dto';
+import { AuthService } from './../../services/auth.service';
+import { CredenciaisDTO } from './../../models/credenciais.dto';
 import { Component } from '@angular/core';
 import { NavController, IonicPage } from 'ionic-angular';
-import { MenuController } from '../../../node_modules/ionic-angular/components/app/menu-controller';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 
 @IonicPage()
 @Component({ //@Component faz ser o controller de alguma view
@@ -11,13 +12,15 @@ import { MenuController } from '../../../node_modules/ionic-angular/components/a
 export class HomePage { //controller da view home.html
 
   //Usado para fazer o bind no formulário de login, começam vazios
-  creds: CredeciaisDTO = { 
+  creds: CredenciaisDTO = { 
     email: "",
     senha: ""
   };
 
-  constructor(public navCtrl: NavController, public menu: MenuController) { //navController permite navegar de uma página a outra
-    //quando entrar na página home devemos desabilitar o menu e quando sair habilitar
+  constructor(
+    public navCtrl: NavController, //navController permite navegar de uma página a outra 
+    public menu: MenuController, //quando entrar na página home devemos desabilitar o menu e quando sair habilitar
+    public auth: AuthService) { //para fazer login
   }
 
   ionViewWillEnter() { //quando for entrar na página acesso o menu e o desabilito    
@@ -33,7 +36,12 @@ export class HomePage { //controller da view home.html
     //CategoriasPage é o nome do controlador de categorias que devo colocar para chegar a página de categorias
     //navegar de uma página para outra, sempre usar this.
     //this.navCtrl.push('CategoriasPage');
-    console.log(this.creds);
-    this.navCtrl.setRoot('CategoriasPage'); //uso setRoot para não empilhar
+    this.auth.authenticate(this.creds)
+    .subscribe(response => {
+      console.log(response.headers.get('Authorization')); //pega o cabeçalho como meu token
+      this.navCtrl.setRoot('CategoriasPage');
+    },
+    error => {});    
+    
   }
 }
