@@ -1,3 +1,4 @@
+import { CredeciaisDTO } from './../../models/credenciais.dto';
 import { Component } from '@angular/core';
 import { NavController, IonicPage } from 'ionic-angular';
 import { MenuController } from '../../../node_modules/ionic-angular/components/app/menu-controller';
@@ -8,6 +9,12 @@ import { MenuController } from '../../../node_modules/ionic-angular/components/a
   templateUrl: 'home.html' //view desse controller
 })
 export class HomePage { //controller da view home.html
+
+  //Usado para fazer o bind no formulário de login, começam vazios
+  creds: CredeciaisDTO = { 
+    email: "",
+    senha: ""
+  };
 
   constructor(public navCtrl: NavController, public menu: MenuController) { //navController permite navegar de uma página a outra
     //quando entrar na página home devemos desabilitar o menu e quando sair habilitar
@@ -26,6 +33,7 @@ export class HomePage { //controller da view home.html
     //CategoriasPage é o nome do controlador de categorias que devo colocar para chegar a página de categorias
     //navegar de uma página para outra, sempre usar this.
     //this.navCtrl.push('CategoriasPage');
+    console.log(this.creds);
     this.navCtrl.setRoot('CategoriasPage'); //uso setRoot para não empilhar
   }
 }
