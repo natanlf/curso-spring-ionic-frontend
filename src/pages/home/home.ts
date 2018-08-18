@@ -38,7 +38,7 @@ export class HomePage { //controller da view home.html
     //this.navCtrl.push('CategoriasPage');
     this.auth.authenticate(this.creds)
     .subscribe(response => {
-      console.log(response.headers.get('Authorization')); //pega o cabeçalho como meu token
+      this.auth.successfulLogin(response.headers.get('Authorization')); //pega o cabeçalho como meu token
       this.navCtrl.setRoot('CategoriasPage');
     },
     error => {});    
