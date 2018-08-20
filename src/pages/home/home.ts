@@ -31,6 +31,15 @@ export class HomePage { //controller da view home.html
     this.menu.swipeEnable(true);   
   }
 
+  ionViewDidEnter() {
+    this.auth.refreshToken()
+      .subscribe(response => {
+        this.auth.successfulLogin(response.headers.get('Authorization'));
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+      error => {});  
+  }
+
   login(){
     //push empilha uma página em cima da outra
     //CategoriasPage é o nome do controlador de categorias que devo colocar para chegar a página de categorias
