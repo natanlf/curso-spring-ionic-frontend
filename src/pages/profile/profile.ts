@@ -35,7 +35,15 @@ export class ProfilePage {
         this.cliente = response; //meu ClienteDto recebe a resposta
         this.getImageIfExists();//buscar a imagem
       },
-    error=>{});
+    error=>{
+      //se der erro 403 quer dizer que não estou autorizado e nesse caso o sistema
+      //vai me redirecionar para a página Home
+      if(error.status==403){ 
+        this.navCtrl.setRoot('HomePage');
+      }
+    });
+    }else{ //caso não ache email no local user também deve redirecionar para a página Home
+      this.navCtrl.setRoot('HomePage');
     }
   }
 
