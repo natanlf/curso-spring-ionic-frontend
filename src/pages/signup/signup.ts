@@ -1,3 +1,7 @@
+import { CidadeDTO } from './../../models/cidade.dto';
+import { EstadoDTO } from './../../models/estado.dto';
+import { EstadoService } from './../../services/domain/estado.service';
+import { CidadeService } from './../../services/domain/cidade.service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -11,11 +15,15 @@ export class SignupPage {
 
   //Colocamos essa variável no html para acessar as validações
   formGroup: FormGroup; //administrar o formulário
+  estados: EstadoDTO[];
+  cidades: CidadeDTO[];
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public formBuilder: FormBuilder ) {//administrar o formulário
+    public formBuilder: FormBuilder,
+    public cidadeService: CidadeService,
+    public estadoService: EstadoService ) {//administrar o formulário
     
     this.formGroup = this.formBuilder.group({ //aqui vamos validar os campos do formulário
       nome: ['Joaquim',[Validators.required, Validators.minLength(5), Validators.maxLength(120)]], //valor inicial, lista de valores que aceita
@@ -37,7 +45,30 @@ export class SignupPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SignupPage');
+    this.estadoService.findAll()
+    .subscribe(response=>{
+      this.estados = response;
+      //vamos atribuit o primeiro elemento da minha lista de estados no formgroup de estado
+      //Dessa forma temos o primeiro estado da lista aparecendo em meu select lá na minha view
+      this.formGroup.controls.estadoId.setValue(this.estados[0].id);
+      this.updateCidades(); //buscamos as cidades correspondentes ao estado que está selecionado
+    },error=>{
+
+    });
+  }
+
+  updateCidades(){
+    //pego o id do estado que está selecionado na minha view
+    let estado_id = this.formGroup.value.estadoId;
+    this.cidadeService.findAll(estado_id)
+    .subscribe(response=>{
+      this.cidades = response;
+      //Quando mudar o estado não deve ter nenhuma cidade selecionada
+      this.formGroup.controls.cidadeId.setValue(null);
+    },
+  error=>{
+
+  });
   }
 
   signupUser() {
