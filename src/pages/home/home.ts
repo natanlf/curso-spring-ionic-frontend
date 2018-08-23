@@ -53,4 +53,9 @@ export class HomePage { //controller da view home.html
     error => {});    
     
   }
+
+  signup(){
+    console.log("signup");
+    this.navCtrl.push("SignupPage");
+  }
 }
