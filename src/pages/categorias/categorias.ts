@@ -42,7 +42,7 @@ export class CategoriasPage {
     error => {});
   }
 
-  showProdutos() {
-    this.navCtrl.push('ProdutosPage');    
+  showProdutos(categoria_id: string) { //envio para a página de produtos o id da categoria
+    this.navCtrl.push('ProdutosPage', {categoria_id: categoria_id});    
   }
 }
