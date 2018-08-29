@@ -5,15 +5,17 @@ import { CredenciaisDTO } from './../models/credenciais.dto';
 import { Injectable } from "@angular/core";
 import { StorageService } from './storage.service';
 import { JwtHelper } from "angular2-jwt";
+import { CartService } from "./domain/cart.service";
 
 @Injectable()
 export class AuthService{
 
     jwtHelper: JwtHelper = new JwtHelper();
 
-    constructor(public http: HttpClient, public storage: StorageService){
-
-    }
+    constructor(
+        public http: HttpClient, 
+        public storage: StorageService, 
+        public cartService: CartService){}
 
     authenticate(creds : CredenciaisDTO) {
         return this.http.post(
@@ -44,6 +46,7 @@ export class AuthService{
             email: this.jwtHelper.decodeToken(tok).sub //extraindo email do token
         };
         this.storage.setLocalUser(user); //assim guardo o usuário no LocalStorage
+        this.cartService.createOrClearCart(); //limpar o carrinho quando acontecer o login
     }
 
     logout(){ //o logout vai lá no Storage e remove o usuário
